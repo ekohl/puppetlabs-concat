@@ -8,16 +8,12 @@
 #   anything else using this to influence the order of the content in the file
 #
 define concat::fragment(
-  String                             $target,
-  Optional[String]                   $content = undef,
-  Optional[Variant[String, Array]]   $source  = undef,
-  Variant[String, Integer]           $order   = '10',
+  String                                   $target,
+  Optional[String]                         $content = undef,
+  Optional[Variant[String, Array]]         $source  = undef,
+  Variant[Pattern[/^[^:\n\/]*$/], Integer] $order   = '10',
 ) {
   $resource = 'Concat::Fragment'
-
-  if ($order =~ String and $order =~ /[:\n\/]/) {
-    fail("${resource}['${title}']: 'order' cannot contain '/', ':', or '\n'.")
-  }
 
   if ! ($content or $source) {
     crit('No content, source or symlink specified')
